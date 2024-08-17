@@ -1,36 +1,52 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libretro BIOS Formatter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>libretro_formatter</title>
 </head>
 <body>
+  <h1>libretro_formatter</h1>
+  <form action="/file-upload"
+      class="dropzone"
+      id="my-awesome-dropzone"></form>
 
-    <p>Sup dude!</p>
-    <script src="" async defer></script>
-    <form action="/target" class="dropzone"></form>
+       -->
 
-</body>
-</html> -->
+  <div id="find-me">
+    <ul id="myList">
+    </ul>
+  </div>
 
-<!DOCTYPE html>
+  <div id="core-overview">
+    <table>
+    
+      <tr>
+        <th>Game Name</th>
+        <th>Comment</th>
+        <th>Rom Name</th>
+        <th>Size (bytes)</th>
+        <th>CRC</th>
+        <th>MD5</th>
+        <th>SHA1</th>
+      </tr>
+      <tr>
+        <td>Sup</td>
+        <td>Sup</td>
+        <td>Sup</td>
+        <td>Sup</td>
+        <td>Sup</td>
+        <td>Sup</td>
+        <td>Sup</td>
+      </tr>
+    
+    </table>
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dropzone Example</title>
+  </div>
 
-<script type="module" src="app.js"></script>
 
-<main>
-  <small>Obviously the files dropped here will fail to upload because there is no server to accept them.</small>
-
-  <form class="dropzone" id="my-form" action="/"></form>
-  
-  <h1>Debug output:</h1>
-  <pre id="output"></pre>
-</main>
-
+  <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+  <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css"/>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
