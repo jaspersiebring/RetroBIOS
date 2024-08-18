@@ -1,11 +1,4 @@
-export function sha256(buffer) {
-    const crypto = window.crypto || window.msCrypto;
-    return crypto.subtle.digest("SHA-256", buffer).then(hashBuffer => {
-        return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-    });
-}
-
-async function fetchDatFile() {
+async function fetchFile() {
     const url = "https://raw.githubusercontent.com/libretro/libretro-database/master/dat/System.dat";
     
     try {
@@ -20,8 +13,8 @@ async function fetchDatFile() {
     }
 }
 
-async function get_mapper() {
-    const data = await fetchDatFile();
+async function parseDat() {
+    const data = await fetchFile();
     const systemPattern = /comment\s+"([^"]+)"/g;
     const romPattern = /rom.*(?:name\s+)(\S+)?\s*(?:size\s+)(\S+)?\s*(?:crc\s+)(\S+)?\s*(?:md5\s+)(\S+)?\s*(?:sha1\s+)(\S+)?/g;
     
@@ -32,7 +25,9 @@ async function get_mapper() {
     matched_systems.reverse() // so we can use .find()
 
     // roms can only be between systems
-    const sha1_mapper = new Map(); // Map to index BIOS files by their SHA1 hash
+    const sha1Map = new Map(); // Map to index BIOS files by their SHA1 hash
+    const systemDict = {}
+
     for (let i = 0; i < matched_roms.length; i++) {
         const current_system = matched_systems.find(system => system.index < matched_roms[i].index);
         const system = current_system[1];
@@ -47,10 +42,16 @@ async function get_mapper() {
             system: system || null
         }
         if (sha1) {
-            sha1_mapper.set(sha1, rom);
+            sha1Map.set(sha1, rom);            
+            if (system) {
+                if (!systemDict[system]) {
+                    systemDict[system] = []; // Initialize array if not present
+                }
+                systemDict[system].push(rom); // Add ROM to the system's array
+            }
         }
     }
-    return sha1_mapper;
+    return [sha1Map, systemDict];
 }
 
-export const sha1_mapper = await get_mapper();
+export const [sha1Map, systemDict] = await parseDat();

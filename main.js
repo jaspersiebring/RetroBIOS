@@ -1,4 +1,4 @@
-import { sha256, sha1_mapper } from './utils.js';
+import { sha1Map, systemDict } from './utils.js';
 
 let a = 12;
 // Initialize Dropzone
@@ -9,7 +9,9 @@ const myDropzone = new Dropzone("#my-awesome-dropzone", {
     paramName: "file", // The name that will be used to transfer the file
     maxFilesize: 15, // we're not expecting BIOS files over 15mb (TODO check if this works with folders or individual files)
     dictDefaultMessage: "Drag files here or click to upload",
-    autoProcessQueue: false // Automatically upload files
+    autoProcessQueue: false, // Automatically upload files
+    acceptDirectories: true,
+    disablePreviews: true
 });
 
 // ignore
@@ -28,21 +30,15 @@ const myDropzone = new Dropzone("#my-awesome-dropzone", {
 //     // You can handle the error here
 // });
 
-// // Handle the `complete` event
-// myDropzone.on("complete", function(file) {
-//     console.log("File upload complete:", file);
-//     // You can perform actions after the upload completes here
-// });
 
 function readFileAsArrayBuffer(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(reader.result);
+        reader.onerror = () => reject(reader.error);
         reader.readAsArrayBuffer(file);
     });
 }
-
 
 // Handle files added to Dropzone
 myDropzone.on("addedfile", async function(file) {
@@ -50,28 +46,30 @@ myDropzone.on("addedfile", async function(file) {
     try {
         console.log("File added:", file);
         
-        const romArrayBuffer = await readFileAsArrayBuffer(file);
-        const hashedRom = await crypto.subtle.digest("SHA-1", romArrayBuffer);
-        console.log('SHA-1 Hash:', hashedRom);  // Display hash
+        const fileBuffer = await readFileAsArrayBuffer(file);
+        const fileHash = await crypto.subtle.digest("SHA-1", fileBuffer);
+        const viewHash = new Uint8Array(fileHash);
+        const sha1String = Array.from(viewHash).map(byte => byte.toString(16).padStart(2, "0")).join("");
+
         
-        const uint8ViewOfHash = new Uint8Array(hashedRom);
-        
-        const sha1_hex_string = Array.from(uint8ViewOfHash).map(byte => byte.toString(16).padStart(2, "0")).join("");
         
         const myList = document.querySelector("#myList");
-        const listItem = document.createElement("li");
-        // listItem.textContent = fileSizeSTR;
-        listItem.textContent = sha1_hex_string;
-        const sha1s = Array.from(sha1_mapper.values(), (x) => x["sha1"]);
-        let a = 12;
-
-        
-        const possible_match = sha1_mapper.get(sha1_hex_string);
-
-        const romMatch = sha1s.includes(sha1_hex_string);
-        console.log(possible_match);
-        alert(possible_match);
+        const listItem = document.createElement("li"); 
+        listItem.textContent = sha1String;
         myList.appendChild(listItem);
+        
+        // const sha1s = Array.from(sha1_mapper.values(), (x) => x["sha1"]);
+        // const romMatch = sha1s.includes(sha1String);
+        const possible_match = sha1Map.get(sha1String);
+
+        // alert(this.files.length);
+        if (possible_match !== undefined) {
+            console.log(possible_match);
+            // alert(possible_match);
+        } else {
+            console.log(possible_match);
+        }
+
 
     } catch (error) {
         console.error(`Error processing file: ${error}`);
@@ -80,21 +78,21 @@ myDropzone.on("addedfile", async function(file) {
 });
 
 
-// ignore
-
-async function main() {
-    console.log(sha1_mapper);
-    let a = 12;
-    // Example lookup
-    const md5ToFind = 'some-md5-hash';
-    const rom = sha1_mapper.get(md5ToFind);
-
-    if (rom) {
-        console.log('ROM found:', rom);
-    } else {
-        console.log('ROM not found');
-    }
+function main() {
+    const tableData = Object.entries(systemDict).flatMap(([system, roms]) =>
+        roms.map(rom => [system, rom.name, rom.size, rom.sha1])
+    );
+    
+      new gridjs.Grid({
+        columns: ["System", "Name", "Size", "SHA1"],
+        data: tableData,
+        sort: true, // Optional: enable sorting on columns
+        search: true, // Optional: enable searching through the table
+        pagination: {
+            enabled: true,
+            limit: 10, // Optional: number of rows per page
+        }
+    }).render(document.getElementById("wrapper"));
 }
 
 main();
-// processQueue is never called
