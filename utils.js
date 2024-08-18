@@ -1,11 +1,11 @@
-export function sha256(buffer) {
+function sha256(buffer) {
     const crypto = window.crypto || window.msCrypto;
     return crypto.subtle.digest("SHA-256", buffer).then(hashBuffer => {
         return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
     });
 }
 
-async function fetchDatFile() {
+export async function fetchDatFile() {
     const url = "https://raw.githubusercontent.com/libretro/libretro-database/master/dat/System.dat";
     
     try {
@@ -20,8 +20,6 @@ async function fetchDatFile() {
     }
 }
 
-export let md5_mapper = new Map();
-
 export async function get_mapper() {
     const data = await fetchDatFile();
     const systemPattern = /comment\s+"([^"]+)"/g;
@@ -34,8 +32,7 @@ export async function get_mapper() {
     matched_systems.reverse() // so we can use .find()
 
     // roms can only be between systems
-    // let md5_mapper = new Map(); // Map to index BIOS files by MD5 hash
-    md5_mapper.clear(); // Clear existing data if any
+    const md5_mapper = new Map(); // Map to index BIOS files by MD5 hash
     for (let i = 0; i < matched_roms.length; i++) {
         const current_system = matched_systems.find(system => system.index < matched_roms[i].index);
         const system = current_system[1];
@@ -53,4 +50,5 @@ export async function get_mapper() {
             md5_mapper.set(md5, rom);
         }
     }
+    return md5_mapper;
 }
