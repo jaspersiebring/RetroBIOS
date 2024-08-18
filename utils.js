@@ -5,7 +5,7 @@ export function sha256(buffer) {
     });
 }
 
-export async function fetchDatFile() {
+async function fetchDatFile() {
     const url = "https://raw.githubusercontent.com/libretro/libretro-database/master/dat/System.dat";
     
     try {
@@ -20,7 +20,7 @@ export async function fetchDatFile() {
     }
 }
 
-export async function get_mapper() {
+async function get_mapper() {
     const data = await fetchDatFile();
     const systemPattern = /comment\s+"([^"]+)"/g;
     const romPattern = /rom.*(?:name\s+)(\S+)?\s*(?:size\s+)(\S+)?\s*(?:crc\s+)(\S+)?\s*(?:md5\s+)(\S+)?\s*(?:sha1\s+)(\S+)?/g;
@@ -32,23 +32,25 @@ export async function get_mapper() {
     matched_systems.reverse() // so we can use .find()
 
     // roms can only be between systems
-    const md5_mapper = new Map(); // Map to index BIOS files by MD5 hash
+    const sha1_mapper = new Map(); // Map to index BIOS files by their SHA1 hash
     for (let i = 0; i < matched_roms.length; i++) {
         const current_system = matched_systems.find(system => system.index < matched_roms[i].index);
         const system = current_system[1];
 
         const [_, name, size, crc, md5, sha1] = matched_roms[i];
         const rom = {
-            name: name || null,
+            name: name.replace(/['"]/g, '') || null,
             size: size || null,
             crc: crc || null,
             md5: md5 || null,
             sha1: sha1 || null,
             system: system || null
         }
-        if (md5) {
-            md5_mapper.set(md5, rom);
+        if (sha1) {
+            sha1_mapper.set(sha1, rom);
         }
     }
-    return md5_mapper;
+    return sha1_mapper;
 }
+
+export const sha1_mapper = await get_mapper();

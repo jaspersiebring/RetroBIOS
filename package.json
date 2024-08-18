@@ -1,0 +1,20 @@
+{
+  "name": "libretro_formatter",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaspersiebring/libretro_formatter.git"
+  },
+  "author": "Jasper Siebring",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaspersiebring/libretro_formatter/issues"
+  },
+  "homepage": "https://github.com/jaspersiebring/libretro_formatter#readme"
+}
