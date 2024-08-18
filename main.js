@@ -12,6 +12,7 @@ const myDropzone = new Dropzone("#my-awesome-dropzone", {
     autoProcessQueue: false, // Automatically upload files
     acceptDirectories: true,
     disablePreviews: true
+    
 });
 
 // ignore
@@ -87,7 +88,7 @@ function main() {
         columns: ["System", "Name", "Size", "SHA1"],
         data: tableData,
         sort: true, // Optional: enable sorting on columns
-        search: true, // Optional: enable searching through the table
+        search: false, // Optional: enable searching through the table
         pagination: {
             enabled: true,
             limit: 10, // Optional: number of rows per page

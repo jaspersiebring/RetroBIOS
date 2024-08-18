@@ -1,4 +1,4 @@
-async function fetchFile() {
+async function fetchData() {
     const url = "https://raw.githubusercontent.com/libretro/libretro-database/master/dat/System.dat";
     
     try {
@@ -13,8 +13,8 @@ async function fetchFile() {
     }
 }
 
-async function parseDat() {
-    const data = await fetchFile();
+async function parseData() {
+    const data = await fetchData();
     const systemPattern = /comment\s+"([^"]+)"/g;
     const romPattern = /rom.*(?:name\s+)(\S+)?\s*(?:size\s+)(\S+)?\s*(?:crc\s+)(\S+)?\s*(?:md5\s+)(\S+)?\s*(?:sha1\s+)(\S+)?/g;
     
@@ -54,4 +54,4 @@ async function parseDat() {
     return [sha1Map, systemDict];
 }
 
-export const [sha1Map, systemDict] = await parseDat();
+export const [sha1Map, systemDict] = await parseData();
