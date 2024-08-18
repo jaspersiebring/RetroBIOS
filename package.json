@@ -1,20 +1,29 @@
 {
-  "name": "libretro_formatter",
+  "name": "retrobios",
   "version": "1.0.0",
   "type": "module",
   "description": "",
   "main": "main.js",
+  "directories": {
+    "doc": "docs"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jaspersiebring/libretro_formatter.git"
+    "url": "git+ssh://git@github.com/jaspersiebring/RetroBIOS.git"
   },
+  "keywords": [
+    "retroarch",
+    "emulation",
+    "libretro",
+    "videogames"
+  ],
   "author": "Jasper Siebring",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jaspersiebring/libretro_formatter/issues"
+    "url": "https://github.com/jaspersiebring/RetroBIOS/issues"
   },
-  "homepage": "https://github.com/jaspersiebring/libretro_formatter#readme"
+  "homepage": "https://github.com/jaspersiebring/RetroBIOS#readme"
 }
