@@ -1,4 +1,4 @@
-function sha256(buffer) {
+export function sha256(buffer) {
     const crypto = window.crypto || window.msCrypto;
     return crypto.subtle.digest("SHA-256", buffer).then(hashBuffer => {
         return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
