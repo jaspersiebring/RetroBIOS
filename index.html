@@ -3,15 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>libretro_formatter</title>
+  <title>RetroBIOS</title>
+  <style>
+    .header-container {
+        display: flex;
+        align-items: center; /* Vertically centers items */
+    }
+    .header-container img {
+        width: 100px; /* Adjust the size as needed */
+        margin-right: 10px; /* Space between image and text */
+    }
+    .header-container h1 {
+        margin: 10; /* Remove default margin */
+    }
+  </style>
 </head>
+
 <body>
-  <h1>libretro_formatter</h1>
+
+  <div class="header-container">
+    <img src="docs/assets/images/logo.png" alt="Logo">
+    <h1>BIOS Organizer for RetroArch</h1>
+  </div>
+  
   <form action="/file-upload"
       class="dropzone"
       id="my-awesome-dropzone"></form>
 
-  <h2>System.dat</h2>
   <div id="find-me">
     <ul id="myList">
     </ul>
