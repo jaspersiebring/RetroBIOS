@@ -13,3 +13,13 @@ body {
 .header-container h1 {
     margin: 10; /* Remove default margin */
 }
+
+button {
+    margin: 5px;
+    color: black;
+}
+
+label {
+    margin: 5px;
+    color: black;
+}

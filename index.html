@@ -7,7 +7,7 @@
   <link rel="icon" type="image/x-icon" href="docs/assets/images/favicon.ico">
 
   <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css"/>
-  <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator.min.css" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
   <link href="styles.css" rel="stylesheet">
 </head>
@@ -22,20 +22,17 @@
   <form action="/file-upload"
       class="dropzone"
       id="my-awesome-dropzone"></form>
+  
+  <br>
+  <div id="tab_wrapper"></div>
 
-  <div id="find-me">
-    <ul id="myList">
-    </ul>
-  </div>
-
-  <div id="wrapper"></div>
 
   <footer>
-    <p>Footer</p>
+    <p style="font-size:10px">Something very important (2024)</p>
   </footer>
-  
-  <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+
   <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@6.2.5/dist/js/tabulator.min.js"></script>
   <script type="module" src="./main.js"></script>
 </body>
 </html>

@@ -1,13 +1,10 @@
 import { sha1Map, systemDict } from './utils.js';
 
-let a = 12;
 let tableData;
-let gridInstance;
+let table;
 
 // Initialize Dropzone
 Dropzone.autoDiscover = false; // Disable auto-discovery for this instance
-
-// Create a new Dropzone instance (#my-awesome-dropzone needs to be a form)
 const myDropzone = new Dropzone("#my-awesome-dropzone", {
     paramName: "file", // The name that will be used to transfer the file
     maxFilesize: 15, // we're not expecting BIOS files over 15mb (TODO check if this works with folders or individual files)
@@ -17,8 +14,6 @@ const myDropzone = new Dropzone("#my-awesome-dropzone", {
     disablePreviews: true
     
 });
-
-// ignore
 
 // // Handle the `success` event
 // myDropzone.on("success", function(file, response) {
@@ -46,7 +41,6 @@ function readFileAsArrayBuffer(file) {
 
 // Handle files added to Dropzone
 myDropzone.on("addedfile", async function(file) {
-
     try {
         console.log("File added:", file);
         
@@ -55,28 +49,23 @@ myDropzone.on("addedfile", async function(file) {
         const viewHash = new Uint8Array(fileHash);
         const sha1String = Array.from(viewHash).map(byte => byte.toString(16).padStart(2, "0")).join("");
 
-        const myList = document.querySelector("#myList");
-        const listItem = document.createElement("li"); 
-        listItem.textContent = sha1String;
-        myList.appendChild(listItem);
-
-        const index = tableData.findIndex(row => row['sha1'] === sha1String);
-        tableData[index]['missing'] = false
-        let a = 12;
-            
-        // const sha1s = Array.from(sha1_mapper.values(), (x) => x["sha1"]);
-        // const romMatch = sha1s.includes(sha1String);
+        // const myList = document.querySelector("#myList");
+        // const listItem = document.createElement("li"); 
+        // listItem.textContent = sha1String;
+        // myList.appendChild(listItem);
+    
         const possible_match = sha1Map.get(sha1String);
-
-        // alert(this.files.length);
         if (possible_match !== undefined) {
             console.log(possible_match);
-            // alert(possible_match);
+            const index = tableData.findIndex(row => row['sha1'] === sha1String);
+            tableData[index]['match'] = true;
+            table.setSort([
+                {column:"match", dir:"desc"},
+            ]);
+
         } else {
             console.log(possible_match);
         }
-
-
     } catch (error) {
         console.error(`Error processing file: ${error}`);
     }
@@ -84,25 +73,32 @@ myDropzone.on("addedfile", async function(file) {
 });
 
 function main() {
-    // const tableData = Object.entries(systemDict).flatMap(([system, roms]) =>
-    //     roms.map(rom => [system, rom.name, rom.size, rom.sha1])
-    // );
-
-    // const indices
     tableData = Array.from(sha1Map.values());
-    tableData.forEach(bios => bios["missing"] = true);
-    let a = 12;
-    
-    gridInstance = new gridjs.Grid({
-        columns: ["System", "Name", "Size", "SHA1", "Missing"],
-        data: tableData,
-        sort: true, // Optional: enable sorting on columns
-        search: true, // Optional: enable searching through the table
-        pagination: {
-            enabled: true,
-            limit: 10, // Optional: number of rows per page
-        }
-    }).render(document.getElementById("wrapper"));
+    tableData.forEach(bios => bios["match"] = false);
+    let b = 12; 
+    table = new Tabulator("#tab_wrapper", {
+        data: tableData, 
+        autoColumns: true, 
+        autoColumnsDefinitions:[
+            {field:"match", formatter:"tickCross", visible:true}, 
+        ],
+        layout:"fitColumns",      
+        pagination:"local",       
+        paginationSize:20,        
+        paginationCounter:"rows",
+        initialSort: [
+            {column: "match", dir: "desc"}
+          ],
+        selectableRows:true,
+        // rowHeader:{formatter:"rowSelection", titleFormatter:"rowSelection", headerSort:false, resizable: false, frozen:true, headerHozAlign:"center", hozAlign:"center"},
+
+        selectableRowsCheck:function(row){
+            //row - row component
+            return row.getData().match === true; 
+        },
+        footerElement:"<button>Export ZIP</button>",
+        
+    });
 }
 
 main();
