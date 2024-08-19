@@ -1,6 +1,9 @@
 import { sha1Map, systemDict } from './utils.js';
 
 let a = 12;
+let tableData;
+let gridInstance;
+
 // Initialize Dropzone
 Dropzone.autoDiscover = false; // Disable auto-discovery for this instance
 
@@ -52,13 +55,15 @@ myDropzone.on("addedfile", async function(file) {
         const viewHash = new Uint8Array(fileHash);
         const sha1String = Array.from(viewHash).map(byte => byte.toString(16).padStart(2, "0")).join("");
 
-        
-        
         const myList = document.querySelector("#myList");
         const listItem = document.createElement("li"); 
         listItem.textContent = sha1String;
         myList.appendChild(listItem);
-        
+
+        const index = tableData.findIndex(row => row['sha1'] === sha1String);
+        tableData[index]['missing'] = false
+        let a = 12;
+            
         // const sha1s = Array.from(sha1_mapper.values(), (x) => x["sha1"]);
         // const romMatch = sha1s.includes(sha1String);
         const possible_match = sha1Map.get(sha1String);
@@ -78,17 +83,21 @@ myDropzone.on("addedfile", async function(file) {
     
 });
 
-
 function main() {
-    const tableData = Object.entries(systemDict).flatMap(([system, roms]) =>
-        roms.map(rom => [system, rom.name, rom.size, rom.sha1])
-    );
+    // const tableData = Object.entries(systemDict).flatMap(([system, roms]) =>
+    //     roms.map(rom => [system, rom.name, rom.size, rom.sha1])
+    // );
+
+    // const indices
+    tableData = Array.from(sha1Map.values());
+    tableData.forEach(bios => bios["missing"] = true);
+    let a = 12;
     
-      new gridjs.Grid({
-        columns: ["System", "Name", "Size", "SHA1"],
+    gridInstance = new gridjs.Grid({
+        columns: ["System", "Name", "Size", "SHA1", "Missing"],
         data: tableData,
         sort: true, // Optional: enable sorting on columns
-        search: false, // Optional: enable searching through the table
+        search: true, // Optional: enable searching through the table
         pagination: {
             enabled: true,
             limit: 10, // Optional: number of rows per page
