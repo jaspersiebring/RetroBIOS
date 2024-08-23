@@ -54,4 +54,49 @@ async function parseData() {
     return [sha1Map, systemDict];
 }
 
+// define column header menu as column visibility toggle
+export const headerMenu = function(){
+    const menu = [];
+    const columns = this.getColumns();
+
+    for(let column of columns){
+
+        // create checkbox element using font awesome icons
+        const icon = document.createElement("i");
+        icon.classList.add("fas");
+        icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
+
+        // build label
+        const label = document.createElement("span");
+        const title = document.createElement("span");
+
+        title.textContent = " " + column.getDefinition().title;
+
+        label.appendChild(icon);
+        label.appendChild(title);
+
+        // create menu item
+        menu.push({
+            label:label,
+            action:function(e){
+                // prevent menu closing
+                e.stopPropagation();
+
+                // toggle current column visibility
+                column.toggle();
+
+                // change menu item icon
+                if (column.isVisible()){
+                    icon.classList.remove("fa-square");
+                    icon.classList.add("fa-check-square");
+                } else {
+                    icon.classList.remove("fa-check-square");
+                    icon.classList.add("fa-square");
+                }
+            }
+        });
+    }
+   return menu;
+};
+
 export const [sha1Map, systemDict] = await parseData();
