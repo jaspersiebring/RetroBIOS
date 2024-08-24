@@ -8,27 +8,51 @@
 
   <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css"/>
   <link href="https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
   <link href="styles.css" rel="stylesheet">
 </head>
 
 <body>
+    
+  <header class="site-header">
+    
+    <div class="left-header">
+      <img src="docs/assets/images/logo.png" alt="Logo">
+      <h1>RetroBIOS</h1>
+    </div>
 
-  <div class="header-container">
-    <img src="docs/assets/images/logo.png" alt="Logo">
-    <h1>BIOS Organizer for RetroArch</h1>
+    <a href="https://github.com/jaspersiebring/RetroBIOS" target="_blank">
+      <i class="fa-brands fa-github"></i>
+    </a>
+  </header> 
+
+
+  <div class="single_col">
+    <div class="container">
+
+      <div class="left-box">
+        <h2>BIOS Organizer for RetroArch</h2>
+        <p>Simple web app that finds and prepares your BIOS files for usage with RetroArch</p>
+      </div>
+  
+      <div class="right-box">
+        <form action="/file-upload"
+        class="dropzone"
+        id="my-awesome-dropzone"></form>
+      </div>
+  
+    </div>
+  
+    <br>  
+    <div class="container tab">
+      <div id="tab_wrapper"></div>
+    </div>
   </div>
   
-  <form action="/file-upload"
-      class="dropzone"
-      id="my-awesome-dropzone"></form>
-  
-  <br>
-  <div id="tab_wrapper"></div>
+ 
 
-  <footer>
-    <p style="font-size:10px">Something very important (2024)</p>
-  </footer>
+
 
   <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" integrity="sha256-rMfkFFWoB2W1/Zx+4bgHim0WC7vKRVrq6FTeZclH1Z4=" crossorigin="anonymous"></script>

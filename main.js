@@ -1,5 +1,5 @@
 import { sha1Map, systemDict, headerMenu } from './utils.js';
-
+2375.58
 // containers
 let tableData;
 let table;
@@ -49,6 +49,36 @@ const myDropzone = new Dropzone("#my-awesome-dropzone", {
     }
 });
 
+
+// myDropzone.on("addedfile", async function(file) {
+//     try {
+//         console.log("File added:", file);
+        
+//         const sha1String = await getSha1(file);
+//         const hashPresent = hashSet.has(sha1String);
+//         const possible_match = sha1Map.get(sha1String);
+//         if (possible_match !== undefined) {
+//             console.log(possible_match);
+//             const index = tableData.findIndex(row => row['sha1'] === sha1String);
+//             tableData[index]['match'] = true;
+//             table.setSort([
+//                 {column:"match", dir:"desc"},
+//             ]);
+
+//         } else {
+//             console.log(possible_match);
+//         }
+//     } catch (error) {
+//         console.error(`Error processing file: ${error}`);
+//     }
+    
+// });
+
+
+
+
+
+
 function main() {
     // data init
     tableData = Array.from(sha1Map.values());
@@ -56,15 +86,19 @@ function main() {
     
     // tabulator table init
     table = new Tabulator("#tab_wrapper", {
-        data: tableData, 
-        autoColumns: true, 
-        autoColumnsDefinitions:[
-            {field:"match", formatter:"tickCross", visible:true}, 
-            // {field:"crc", visible:false}, 
-            // {field:"md5", visible:false}, 
-            {field:"name", headerMenu:headerMenu}, 
+        data: tableData,
+        autoColumns: false,
+        columns: [
+            {title:"name", field:"name", visible:true, minWidth:173, headerMenu:headerMenu}, 
+            {title:"size", field:"size", visible:true, minWidth:65}, 
+            {title:"crc", field:"crc", visible:false}, 
+            {title:"md5", field:"md5", visible:false}, 
+            {title:"sha1", field:"sha1", visible:true, minWidth:324}, 
+            {title:"system", field:"system", visible:true, minWidth:171}, 
+            {title:"match", field:"match", visible:true, minWidth:74}, 
         ],
-        layout:"fitColumns",
+
+        layout:"fitData",
         pagination:"local",       
         paginationSize:20,        
         paginationCounter:"rows",
@@ -72,21 +106,13 @@ function main() {
         initialSort: [
             {column: "match", dir: "desc"}
           ],
-        selectableRows:true,
-        // rowHeader:{formatter:"rowSelection", titleFormatter:"rowSelection", headerSort:false, resizable: false, frozen:true, headerHozAlign:"center", hozAlign:"center"},
-        selectableRowsCheck:function(row){
-            //row - row component
-            return row.getData().match === true; 
-        },
-        footerElement:`<button id = "zipAll">Export ZIP</button>`,
-        
+        footerElement:`<button id = "zipAll">Export ZIP</button> <label class="switch">Hide unmatched files<input type="checkbox" id="showAll"><span class="slider round"></span></label>`,
     });
     
     table.on("tableBuilt", function() {
         const exportButton = document.getElementById("zipAll");
         if (exportButton) {
             exportButton.addEventListener("click", async function() {
-                
                 const zip = new JSZip();
                 const validFiles = myDropzone.getAcceptedFiles();
                 for (let validFile of validFiles) {
@@ -97,6 +123,30 @@ function main() {
                 zip.generateAsync({type:"blob"}).then(function (blob) {
                     saveAs(blob, "system.zip");
                 });
+            });
+        }
+
+        const checkBox = document.getElementById("showAll");
+        if (checkBox) {
+            checkBox.addEventListener("change", function() {    
+                if (checkBox.checked) {
+                    table.setFilter("match", "=", true);
+                } else {
+                    table.clearFilter();
+                }
+                table.setSort([
+                    {column:"match", dir:"desc"},
+                ]);
+
+                const columnWidths = table.getColumns().map(column => {
+                    return {
+                        field: column.getField(),  // Get the field name of the column
+                        width: column.getWidth()   // Get the current width of the column
+                    };
+                });
+                console.log(columnWidths);
+            
+
             });
         }
     });

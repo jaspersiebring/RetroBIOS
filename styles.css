@@ -1,25 +1,83 @@
 body {
     font-family: 'Ubuntu';
-    }
+    background: linear-gradient(#e66465, #9198e5);
+}
 
-.header-container {
+
+.site-header {
     display: flex;
-    align-items: center; /* Vertically centers items */
-}
-.header-container img {
-    width: 100px; /* Adjust the size as needed */
-    margin-right: 10px; /* Space between image and text */
-}
-.header-container h1 {
-    margin: 10; /* Remove default margin */
+    justify-content: space-around;   
+    align-items: center;
+    text-align: center;
 }
 
-button {
-    margin: 5px;
-    color: black;
+.site-header h1 {
+    white-space: nowrap;
 }
 
-label {
-    margin: 5px;
+.site-header a {
+    justify-content: flex-end;
     color: black;
+    font-size: 20px;
+
 }
+
+.site-header img {
+    width: 100%;
+    height: 50px;
+}
+
+.single_col {
+    width: 50%;
+}
+
+.left-header {
+    display: inline-flex;
+    justify-content: flex-start;
+    text-align: center;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+    gap:10px;
+
+}
+
+
+.container {
+    display: flex;
+    justify-content: space-around;   
+    align-items: center;
+    text-align: center;
+}
+
+.container .left-box {
+    max-width: 50%;
+    text-align: left;
+    max-width: 200px;
+    
+}
+
+.container .right-box {
+    max-width: 50%;
+    height: 100%;
+}
+
+footer {
+    display: flex;
+}
+
+.right-box form {
+    background-color: white;
+    border-color: white;
+}
+
+.tab {
+    background-color: white;
+    padding: 20px;
+}
+
+footer {
+    background-color: white;
+}
+
+/* so header/navbar thingy container should be flex as it should take the entire width */
