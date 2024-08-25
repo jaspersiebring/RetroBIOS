@@ -85,24 +85,24 @@ function main() {
     tableData.forEach(bios => bios["match"] = false);
     
     // tabulator table init
-    table = new Tabulator("#tab_wrapper", {
+    table = new Tabulator("#table_wrapper", {
         data: tableData,
         autoColumns: false,
         columns: [
-            {title:"name", field:"name", visible:true, minWidth:173, headerMenu:headerMenu}, 
-            {title:"size", field:"size", visible:true, minWidth:65}, 
+            {title:"name", field:"name", visible:true, headerMenu:headerMenu}, 
+            {title:"size", field:"size", visible:true}, 
             {title:"crc", field:"crc", visible:false}, 
             {title:"md5", field:"md5", visible:false}, 
-            {title:"sha1", field:"sha1", visible:true, minWidth:324}, 
-            {title:"system", field:"system", visible:true, minWidth:171}, 
-            {title:"match", field:"match", visible:true, minWidth:74}, 
+            {title:"sha1", field:"sha1", visible:true}, 
+            {title:"system", field:"system", visible:true}, 
+            {title:"match", field:"match", visible:true}, 
         ],
 
-        layout:"fitData",
+        layout:"fitDataTable",
         pagination:"local",       
         paginationSize:20,        
         paginationCounter:"rows",
-        responsiveLayout:"hide", // hide rows that no longer fit
+        responsiveLayout:"collapse", // hide rows that no longer fit
         initialSort: [
             {column: "match", dir: "desc"}
           ],

@@ -1,83 +1,80 @@
+
 body {
+    display: flex;
     font-family: 'Ubuntu';
-    background: linear-gradient(#e66465, #9198e5);
+    background-color: #58598a;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
 }
 
 
-.site-header {
+.wrapper {
     display: flex;
-    justify-content: space-around;   
-    align-items: center;
-    text-align: center;
-}
-
-.site-header h1 {
-    white-space: nowrap;
-}
-
-.site-header a {
-    justify-content: flex-end;
-    color: black;
-    font-size: 20px;
-
-}
-
-.site-header img {
-    width: 100%;
-    height: 50px;
-}
-
-.single_col {
-    width: 50%;
-}
-
-.left-header {
-    display: inline-flex;
-    justify-content: flex-start;
-    text-align: center;
-    align-items: center;
-    padding: 10px;
-    margin: 10px;
-    gap:10px;
-
-}
-
-
-.container {
-    display: flex;
-    justify-content: space-around;   
-    align-items: center;
-    text-align: center;
-}
-
-.container .left-box {
-    max-width: 50%;
-    text-align: left;
-    max-width: 200px;
+    min-width: 100vw;
+    min-height: 100vh;
+    gap: 10px;
     
 }
 
-.container .right-box {
-    max-width: 50%;
-    height: 100%;
-}
-
-footer {
+.container {
     display: flex;
+    flex-direction: column;
+
 }
 
-.right-box form {
-    background-color: white;
+#left {
+    flex: 1;
+    color: white;
+    display: flex;
+    max-width: 400px;
+}
+
+#right {
+    flex: 3;
+    max-width: 2200px;
+
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: center;
+}
+
+.logo img {
+    width: 100px;
+    margin: 10px;
+}
+
+.item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+#name_wrapper {
+    justify-content: center;
+}
+
+#dropzone_wrapper {
+    align-items: center;
+    justify-content: center;
+}
+
+#my-awesome-dropzone {
     border-color: white;
+    height: 100%;
+    width: 100%;
+    border-radius: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.tab {
-    background-color: white;
-    padding: 20px;
+#table_wrapper {
+    font-size: 20px;
 }
 
-footer {
-    background-color: white;
-}
-
-/* so header/navbar thingy container should be flex as it should take the entire width */

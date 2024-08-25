@@ -15,42 +15,34 @@
 
 <body>
     
-  <header class="site-header">
-    
-    <div class="left-header">
-      <img src="docs/assets/images/logo.png" alt="Logo">
-      <h1>RetroBIOS</h1>
-    </div>
-
-    <a href="https://github.com/jaspersiebring/RetroBIOS" target="_blank">
-      <i class="fa-brands fa-github"></i>
-    </a>
-  </header> 
-
-
-  <div class="single_col">
-    <div class="container">
-
-      <div class="left-box">
-        <h2>BIOS Organizer for RetroArch</h2>
-        <p>Simple web app that finds and prepares your BIOS files for usage with RetroArch</p>
-      </div>
-  
-      <div class="right-box">
-        <form action="/file-upload"
-        class="dropzone"
-        id="my-awesome-dropzone"></form>
-      </div>
-  
-    </div>
-  
-    <br>  
-    <div class="container tab">
-      <div id="tab_wrapper"></div>
-    </div>
-  </div>
   
  
+  <div class="wrapper">
+
+    <div class="container" id="left">  
+      <div class="item" id="name_wrapper">
+        <div class="logo">
+          <img src="docs/assets/images/logo.png" alt="Logo">
+          <h2>RetroBIOS</h2>
+        </div>
+    
+        <h1>Find and organize your BIOS files for RetroArch</h1>
+        <p>No more need to manually select, rename and move your BIOS files to some RetroArch installation somewhere, just dump them in RetroBIOS and let it sort them out for you.</p>
+        <p>This repository does <strong>NOT</strong> include the BIOS files themselves.</p>
+      </div>
+
+      <div class="item" id="dropzone_wrapper">
+        <form action="/file-upload" class="dropzone" id="my-awesome-dropzone"></form>
+      </div>
+      <footer style="font-size: xx-small; margin:5px;">Something very important (2024)</footer>
+    </div>
+
+
+    <div class="container" id="right">  
+      <div class="item" id="table_wrapper"></div>
+    </div>
+
+  </div>
 
 
 
